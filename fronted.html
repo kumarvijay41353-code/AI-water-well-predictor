@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Water Well Predictor</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌊 AI Water Well Predictor</h1>
+            <p class="subtitle">Intelligent water resource prediction using advanced machine learning</p>
+        </header>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>📊 Site Analysis</h2>
+                <form id="predictionForm">
+                    <div class="form-group">
+                        <label for="latitude">Latitude</label>
+                        <input type="number" id="latitude" step="0.000001" placeholder="e.g., 40.7128" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="longitude">Longitude</label>
+                        <input type="number" id="longitude" step="0.000001" placeholder="e.g., -74.0060" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="elevation">Elevation (meters)</label>
+                        <input type="number" id="elevation" placeholder="e.g., 100" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="soilType">Soil Type</label>
+                        <select id="soilType" required>
+                            <option value="">Select soil type</option>
+                            <option value="clay">Clay</option>
+                            <option value="sand">Sand</option>
+                            <option value="loam">Loam</option>
+                            <option value="silt">Silt</option>
+                            <option value="rocky">Rocky</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rainfall">Annual Rainfall (mm)</label>
+                        <input type="number" id="rainfall" placeholder="e.g., 800" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="population">Population Density</label>
+                        <select id="population">
+                            <option value="low">Low (Rural)</option>
+                            <option value="medium">Medium (Suburban)</option>
+                            <option value="high">High (Urban)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="predict-btn">🔮 Predict Water Availability</button>
+                </form>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing geological data...</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🎯 Prediction Results</h2>
+                <div class="prediction-map">
+                    <div class="map-overlay"></div>
+                    <div>Interactive prediction map will display here</div>
+                </div>
+                
+                <div class="results" id="results" style="display: none;">
+                    <div class="result-item">
+                        <span class="result-label">Water Probability:</span>
+                        <span class="result-value" id="probability">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Estimated Depth:</span>
+                        <span class="result-value" id="depth">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Water Quality:</span>
+                        <span class="result-value" id="quality">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Flow Rate:</span>
+                        <span class="result-value" id="flowRate">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Drilling Recommendation:</span>
+                        <span class="result-value" id="recommendation">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-Powered Analysis</h3>
+                <p>Advanced machine learning algorithms analyze geological data, rainfall patterns, and soil composition for accurate predictions.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>Geospatial Intelligence</h3>
+                <p>Integrate satellite imagery, topographical data, and hydrogeological surveys for comprehensive site assessment.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Success Rate Tracking</h3>
+                <p>Monitor prediction accuracy and continuously improve the AI model with real-world drilling results and feedback.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💧</div>
+                <h3>Water Quality Prediction</h3>
+                <p>Estimate potential water quality based on local geological conditions and contamination risk factors.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate AI prediction logic
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            
+            // Show loading
+            loading.style.display = 'block';
+            results.style.display = 'none';
+            
+            // Get form data
+            const latitude = parseFloat(document.getElementById('latitude').value);
+            const longitude = parseFloat(document.getElementById('longitude').value);
+            const elevation = parseFloat(document.getElementById('elevation').value);
+            const soilType = document.getElementById('soilType').value;
+            const rainfall = parseFloat(document.getElementById('rainfall').value);
+            const population = document.getElementById('population').value;
+            
+            // Simulate AI processing delay
+            setTimeout(() => {
+                // Mock AI prediction algorithm
+                const soilScores = {
+                    'clay': 0.3,
+                    'sand': 0.7,
+                    'loam': 0.8,
+                    'silt': 0.6,
+                    'rocky': 0.4
+                };
+                
+                const rainfallScore = Math.min(rainfall / 1000, 1);
+                const elevationScore = Math.max(0, 1 - elevation / 2000);
+                const soilScore = soilScores[soilType] || 0.5;
+                
+                // Calculate probability
+                const probability = Math.round((rainfallScore * 0.4 + soilScore * 0.4 + elevationScore * 0.2 + Math.random() * 0.2) * 100);
+                
+                // Generate predictions
+                const depth = Math.round(20 + Math.random() * 80);
+                const qualities = ['Excellent', 'Good', 'Fair', 'Poor'];
+                const quality = qualities[Math.floor(probability / 25)];
+                const flowRate = Math.round(5 + (probability / 100) * 45);
+                
+                let recommendation, recommendationClass;
+                if (probability > 75) {
+                    recommendation = 'Highly Recommended';
+                    recommendationClass = 'success';
+                } else if (probability > 50) {
+                    recommendation = 'Moderately Recommended';
+                    recommendationClass = 'warning';
+                } else {
+                    recommendation = 'Not Recommended';
+                    recommendationClass = 'error';
+                }
+                
+                // Update results
+                document.getElementById('probability').textContent = probability + '%';
+                document.getElementById('depth').textContent = depth + ' meters';
+                document.getElementById('quality').textContent = quality;
+                document.getElementById('flowRate').textContent = flowRate + ' L/min';
+                document.getElementById('recommendation').textContent = recommendation;
+                document.getElementById('recommendation').className = 'result-value ' + recommendationClass;
+                
+                // Hide loading and show results
+                loading.style.display = 'none';
+                results.style.display = 'block';
+                
+                // Smooth scroll to results
+                results.scrollIntoView({ behavior: 'smooth' });
+            }, 2000);
+        });
+        
+        // Auto-fill location on page load (demo purposes)
+        window.addEventListener('load', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+                    document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
